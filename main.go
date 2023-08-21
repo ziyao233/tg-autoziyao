@@ -11,6 +11,7 @@ import (
 	"os"
 
 	"github.com/ziyao233/trobot"
+	troLogger "github.com/ziyao233/trobot/logger"
        )
 
 func readBotToken() string {
@@ -25,5 +26,6 @@ func readBotToken() string {
 
 func main() {
 	trobot.SetAPIToken(readBotToken())
+	trobot.SetLogLevel(troLogger.LDebug)
 	trobot.Run()
 }
