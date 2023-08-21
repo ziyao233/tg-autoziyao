@@ -8,7 +8,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/ziyao233/trobot"
@@ -26,5 +25,5 @@ func readBotToken() string {
 
 func main() {
 	trobot.SetAPIToken(readBotToken())
-	fmt.Println(trobot.GetMe())
+	trobot.Run()
 }
