@@ -9,6 +9,7 @@ package main
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/ziyao233/trobot"
 	troLogger "github.com/ziyao233/trobot/logger"
@@ -25,15 +26,43 @@ func readBotToken() string {
 	return string(token[:len(token) - 1])
 }
 
+func cmdResend(cmd troCommand.Command) error {
+	replied := cmd.Message.RepliedMessage
+	if replied == nil || replied.ID == 0 {
+		cmd.Println("You must reply to a message")
+	}
+
+	repeat := 1
+	if len(cmd.Args) >= 2 {
+		var err error
+		repeat, err = strconv.Atoi(cmd.Args[1])
+		if err != nil {
+			cmd.Println("The argument must be an integer")
+			return nil
+		}
+		if repeat > 5 {
+			cmd.Println("Cannot repeat a message for more than 5 times")
+			return nil
+		}
+	}
+
+	for i := 0; i < repeat; i++ {
+		cmd.Println(replied.Text)
+	}
+	return nil
+}
+
 func main() {
 	trobot.SetAPIToken(readBotToken())
 	trobot.SetLogLevel(troLogger.LDebug)
 
 	troCommand.Register("hello",
 		func(cmd troCommand.Command) error {
-			cmd.Println("Hi")
+			cmd.Reply("Hi")
 			return nil
 		})
+
+	troCommand.Register("resend", cmdResend)
 
 	trobot.Run()
 }
