@@ -52,6 +52,33 @@ func cmdResend(cmd troCommand.Command) error {
 	return nil
 }
 
+var asciiChuang string =`
+                   \ |
+                   -+-
++--------+---\       O
+|        ||   \
+| RISC-V ||    \    O    O
+|        ||     |  -+-  -+-
++--/-\---++-/-\-+ _/ \ _/ \
+   \_/      \-/
+`
+
+func cmdChuang(cmd troCommand.Command) error {
+	replied := cmd.Message.RepliedMessage
+	var replyTo int64
+	if replied == nil || replied.ID == 0 {
+		replyTo = cmd.Message.ID
+	} else {
+		replyTo = replied.ID
+	}
+
+	cmd.Markup = "HTML"
+
+	cmd.ReplyTof(replyTo, "<pre>%s</pre>", asciiChuang)
+
+	return nil
+}
+
 func main() {
 	trobot.SetAPIToken(readBotToken())
 	trobot.SetLogLevel(troLogger.LDebug)
@@ -63,6 +90,7 @@ func main() {
 		})
 
 	troCommand.Register("resend", cmdResend)
+	troCommand.Register("chuang", cmdChuang)
 
 	trobot.Run()
 }
