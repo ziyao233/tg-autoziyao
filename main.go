@@ -53,14 +53,14 @@ func cmdResend(cmd troCommand.Command) error {
 }
 
 var asciiChuang string =`
-                   \ |
-                   -+-
-+--------+---\       O
-|        ||   \
-| RISC-V ||    \    O    O
-|        ||     |  -+-  -+-
-+--/-\---++-/-\-+ _/ \ _/ \
-   \_/      \-/
+             \ |
+             -+-
++--------+-\   O
+|        || \
+| RISC-V ||  \    O
+|        ||   |  -+-
++--/-\---++/-\+ _/ \
+   \_/     \-/
 `
 
 func cmdChuang(cmd troCommand.Command) error {
